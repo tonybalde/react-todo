@@ -4,7 +4,7 @@ function App() {
   return (
     <div style={{ textAlign: 'center' }}>
       <header>
-         <h1>Hello React</h1>
+         <h1>Hello React!</h1>
       </header>
     </div>
   );
