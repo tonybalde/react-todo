@@ -1,14 +1,22 @@
 import React, { useState } from "react";
+import { v4 as uuidv4 } from 'uuid'; // An unique id to each todo item
 
-function AddTodoForm(props) {
-  const [todoTitle, setTodoTitle] = useState(""); // Use state to manage the input value
+function AddTodoForm({onAddTodo}) { // Destructuring Prop
+  const [todoTitle, setTodoTitle] = useState("");
 
   function handleAddTodo(event) {
     event.preventDefault();
-    props.onAddTodo(todoTitle);
-    console.log(todoTitle);
-    // Access the todoTitle from the state
-    setTodoTitle(""); // Clear the input field by setting it to an empty string
+    if (todoTitle.trim() === "") {
+      return; // Prevent adding an empty to-do
+    }
+
+    const newTodo = {
+      title: todoTitle,
+      id: uuidv4()
+    };
+
+    onAddTodo(newTodo);
+    setTodoTitle("");
   }
 
   return (
@@ -18,9 +26,9 @@ function AddTodoForm(props) {
         <input
           type="text"
           id="todoTitle"
-          name="todoTitle" // Add a name attribute to the input
-          value={todoTitle} // Bind the input value to the state
-          onChange={(e) => setTodoTitle(e.target.value)} // Update the state when the input changes
+          name="todoTitle"
+          value={todoTitle}
+          onChange={(e) => setTodoTitle(e.target.value)}
         />
         <button type="submit">Add</button>
       </form>
