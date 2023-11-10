@@ -1,22 +1,31 @@
-import React, { useState } from "react";
-import { v4 as uuidv4 } from 'uuid'; // An unique id to each todo item
 
-function AddTodoForm({onAddTodo}) { // Destructuring Prop
+import React, { useState, useEffect, useRef } from "react";
+
+function AddTodoForm({ onAddTodo }) {
   const [todoTitle, setTodoTitle] = useState("");
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    // Set focus when the component mounts
+    inputRef.current.focus();
+  }, []); // Empty dependency array ensures it runs only once on mount
 
   function handleAddTodo(event) {
     event.preventDefault();
     if (todoTitle.trim() === "") {
-      return; // Prevent adding an empty to-do
+      return;
     }
 
     const newTodo = {
       title: todoTitle,
-      id: uuidv4()
+      id: Date.now(),
     };
 
     onAddTodo(newTodo);
     setTodoTitle("");
+
+    // Set focus after adding a new todo
+    inputRef.current.focus();
   }
 
   return (
@@ -24,6 +33,7 @@ function AddTodoForm({onAddTodo}) { // Destructuring Prop
       <form onSubmit={handleAddTodo}>
         <label htmlFor="todoTitle">Title</label>
         <input
+          ref={inputRef}  // Set up the ref for the input element
           type="text"
           id="todoTitle"
           name="todoTitle"
