@@ -33,13 +33,19 @@ function App() {
   //   localStorage.setItem('savedTodoList', JSON.stringify(todoList));
   // }, [todoList]);
     
-
+  
+  const removeTodo = (id) => {
+    const updatedTodoList = todoList.filter((todo) => todo.id !== id);
+    setTodoList(updatedTodoList);
+  };
+  
+  
   return (
     <>
       <header>
         <h1>ToDo List</h1>
         <AddTodoForm onAddTodo={addTodo} />
-        <TodoList todoList={todoList} />
+        <TodoList todoList={todoList} onRemoveTodo={removeTodo}/>
       </header>
     </>
   );
